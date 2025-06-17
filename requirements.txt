@@ -1,0 +1,8 @@
+numpy
+pip
+notebook
+scipy
+qutip
+matplotlib
+pip
+qsharp
