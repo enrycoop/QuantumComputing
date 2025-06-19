@@ -35,3 +35,4 @@ class QuantumDevice(metaclass=ABCMeta):
         finally:
             qubit.reset()
             self.deallocate_qubit(qubit)
+
