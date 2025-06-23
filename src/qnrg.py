@@ -1,5 +1,5 @@
-from src.interface import QuantumDevice
-from src.simulator import SingleQubitSimulator
+from src.quantum.interface import QuantumDevice
+from src.quantum.simulator import SingleQubitSimulator
 
 
 def qrng(device: QuantumDevice):
