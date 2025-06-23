@@ -1,7 +1,7 @@
 #definizione di costanti utili
 import numpy as np
 
-from interface import Qubit
+from src.interface import Qubit
 from src.interface import QuantumDevice
 
 KET_0 = np.array([
