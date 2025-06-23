@@ -1,4 +1,4 @@
-from src.interface import Qubit, QuantumDevice
+from src.quantum.interface import Qubit, QuantumDevice
 
 
 def prepare_classical_message(bit: bool, q: Qubit) -> None:
