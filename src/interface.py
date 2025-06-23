@@ -14,6 +14,10 @@ class Qubit(metaclass=ABCMeta):
     def reset(self):
         pass
 
+    @abstractmethod
+    def x(self):
+        pass
+
 
 class QuantumDevice(metaclass=ABCMeta):
     # Metodo che consente agli utenti di ottenere Qubit

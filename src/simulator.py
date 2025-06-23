@@ -2,7 +2,7 @@
 import numpy as np
 
 from interface import Qubit
-from src.qnrg.interface import QuantumDevice
+from src.interface import QuantumDevice
 
 KET_0 = np.array([
     [1],
@@ -12,6 +12,11 @@ KET_0 = np.array([
 H = np.array([
     [1, 1],
     [1, -1]
+], dtype=complex) / np.sqrt(2)
+
+X = np.array([
+    [0, 1],
+    [1, 0]
 ], dtype=complex) / np.sqrt(2)
 
 class SimulatedQubit(Qubit):
@@ -29,6 +34,9 @@ class SimulatedQubit(Qubit):
 
     def reset(self):
         self.state = KET_0.copy()
+
+    def x(self):
+        self.state = X @ self.state
 
 class SingleQubitSimulator(QuantumDevice):
     available_qubits = [SimulatedQubit()]
