@@ -1,6 +1,6 @@
-from src.interface import Qubit, QuantumDevice
-from src.qnrg.qnrg import qrng
-from src.simulator import SingleQubitSimulator
+from src.quantum.interface import Qubit, QuantumDevice
+from src.quantum.qnrg import qrng
+from src.quantum.simulator import SingleQubitSimulator
 
 
 def prepare_classical_message(bit: bool, q: Qubit) -> None:
