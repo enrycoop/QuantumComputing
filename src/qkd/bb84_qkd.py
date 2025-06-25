@@ -24,7 +24,8 @@ def measure_message_qubit(basis: bool, q: Qubit) -> bool:
 def convert_to_hex(bits: list[bool]) -> str:
     return hex(int("".join(["1" if bit else "0" for bit in bits]),2))
 
-def send_single_bit_with_bb84(your_device: QuantumDevice, eve_device: QuantumDevice) -> tuple:
+def send_single_bit_with_bb84(your_device: QuantumDevice,
+                              eve_device: QuantumDevice) -> tuple:
     [your_message, your_basis] = [sample_random_bit(your_device) for _ in range(2)]
 
     eve_basis = sample_random_bit(eve_device)
@@ -35,4 +36,4 @@ def send_single_bit_with_bb84(your_device: QuantumDevice, eve_device: QuantumDev
         # QUBIT SENDING...
         eve_result = measure_message_qubit(eve_basis, q)
 
-    return ((your_message, your_basis), (eve_result, eve_basis))
+    return (your_message, your_basis), (eve_result, eve_basis)
