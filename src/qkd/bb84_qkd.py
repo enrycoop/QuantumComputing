@@ -1,4 +1,6 @@
+from src.qkd.qkd import key_bit
 from src.quantum.interface import QuantumDevice, Qubit
+from src.quantum.simulator import SingleQubitSimulator
 
 
 def sample_random_bit(device: QuantumDevice) -> bool:
@@ -37,3 +39,58 @@ def send_single_bit_with_bb84(your_device: QuantumDevice,
         eve_result = measure_message_qubit(eve_basis, q)
 
     return (your_message, your_basis), (eve_result, eve_basis)
+
+def simulate_bb84(n_bits: int) -> tuple:
+    your_device = SingleQubitSimulator()
+    eve_device = SingleQubitSimulator()
+
+    key = []
+    n_rounds =0
+
+    while len(key) < n_bits:
+        n_rounds += 1
+        ((your_message, your_basis), (eve_result, eve_basis)) = (
+            send_single_bit_with_bb84(your_device, eve_device))
+
+        if your_basis == eve_basis:
+            assert your_message == eve_result
+            key.append(your_message)
+
+    print(f"Took {n_rounds} rounds to generate a {n_bits}-bit key.")
+
+    return key
+
+
+def apply_one_time_pad(message: list[bool],  key: list[bool]) -> list[bool]:
+    return [
+     message_bit ^ key_bit
+     for (message_bit, key_bit) in zip(message,key)
+    ]
+
+if __name__ == "__main__":
+    print("Generating a 96-bit key by simulating BB84...")
+
+    key = simulate_bb84(96)
+    print(f"Got key                           {convert_to_hex(key)}.")
+
+    message = [
+        1, 1, 0, 1, 1, 0, 0, 0,
+        0, 0, 1, 1, 1, 1, 0, 1,
+        1, 1, 0, 1, 1, 1, 0, 0,
+        1, 0, 0, 1, 0, 1, 1, 0,
+        1, 1, 0, 1, 1, 0, 0, 0,
+        0, 0, 1, 1, 1, 1, 0, 1,
+        1, 1, 0, 1, 1, 1, 0, 0,
+        0, 0, 0, 0, 1, 1, 0, 1,
+        1, 1, 0, 1, 1, 0, 0, 0,
+        0, 0, 1, 1, 1, 1, 0, 1,
+        1, 1, 0, 1, 1, 1, 0, 0,
+        1, 0, 1, 1, 1, 0, 1, 1
+    ]
+    print(f"Using key to send secret message: {convert_to_hex(message)}.")
+
+    encrypted_message = apply_one_time_pad(message, key)
+    print(f"Encrypted message:                {convert_to_hex(encrypted_message)}.")
+
+    decrypted_message = apply_one_time_pad(encrypted_message, key)
+    print(f"Eve decrypted to get:             {convert_to_hex(decrypted_message)}.")
